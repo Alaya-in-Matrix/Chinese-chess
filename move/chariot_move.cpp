@@ -11,6 +11,15 @@ void Chariot_move(short pos,short Side_tag,vector<mov>& Move_array)
 			short next=pos+j*Chariot_direction[i];
 			if(! Chariot_legal[next])
 				break;
+
+			if(! board[next])
+				Save_move(pos,next,Move_array);
+            else
+            {
+				Save_move(pos,next,Move_array);
+                break;
+            }
+            /*
 			if(! board[next])
 				Save_move(pos,next,Move_array);
 			else if(board[next] & Side_tag)
@@ -20,6 +29,7 @@ void Chariot_move(short pos,short Side_tag,vector<mov>& Move_array)
 				Save_move(pos,next,Move_array);
 				break;
 			}
+            */
 		}
 	}
 }
