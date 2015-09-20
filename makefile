@@ -54,38 +54,44 @@ SRC=board.cpp define_global.cpp \
 
 OBJS=$(patsubst %,$(ODIR)/%,$(OBJS_))
 
-love:$(OBJS) 
-	$(CC) -o $(EXE) $^ $(CFLAGS)
+love: objdir $(OBJS) 
+	$(CC) -o $(EXE) $(OBJS) $(CFLAGS)
+
 
 $(ODIR)/%.o: %.cpp  $(DEPS)
+	mkdir -p $(ODIR)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(ODIR)/$(EVAL)/%.o:$(EVAL)/%.cpp $(DEPS)
+	mkdir -p $(ODIR)/$(EVAL)
 	$(CC) -c -o $@ $< $(CFLAGS)
 	
 $(ODIR)/$(CHECK)/%.o:$(CHECK)/%.cpp $(DEPS)
+	echo here
+	mkdir -p $(ODIR)/$(CHECK)
+	echo here
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(ODIR)/$(MOVE)/%.o:$(MOVE)/%.cpp $(DEPS)
+	mkdir -p $(ODIR)/$(MOVE)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(ODIR)/$(SEARCH)/%.o:$(SEARCH)/%.cpp $(DEPS)
+	mkdir -p $(ODIR)/$(SEARCH)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
+objdir:
+	mkdir -p $(ODIR)
+	mkdir -p $(ODIR)/$(CHECK)
+	mkdir -p $(ODIR)/$(EVAL)
+	mkdir -p $(ODIR)/$(MOVE)
+	mkdir -p $(ODIR)/$(SEARCH)
 
 
 .PHONY:clean
 clean:
-	rm -rf $(ODIR)/*.o
-	rm -rf $(ODIR)/$(CHECK)/*.o
-	rm -rf $(ODIR)/$(EVAL)/*.o
-	rm -rf $(ODIR)/$(MOVE)/*.o
-	rm -rf $(ODIR)/$(SEARCH)/*.o
-	rm chess
+	rm -rf $(ODIR)
+	rm -rf chess
 .PHONY:tidy
 tidy:
-	rm -rf $(ODIR)/*.o
-	rm -rf $(ODIR)/$(CHECK)/*.o
-	rm -rf $(ODIR)/$(EVAL)/*.o
-	rm -rf $(ODIR)/$(MOVE)/*.o
-	rm -rf $(ODIR)/$(SEARCH)/*.o
+	rm -rf $(ODIR)
